@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: pt-attendance
+  datasource:
+    # 默认连接本机 Docker 中的 MySQL 8.4 (端口3456)，可用环境变量覆盖
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3456}/${MYSQL_DB:pt}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:admin}
+    password: ${RABBITMQ_PASSWORD:123456}
+    listener:
+      simple:
+        # 每次只取 1 条、单线程消费 => 消费者按自身能力消费（削峰填谷）
+        prefetch: 1
+        concurrency: 1
+        default-requeue-rejected: false
+
+app:
+  # 默认班次
+  work-start: "08:30"
+  work-end: "18:00"
+  tax:
+    # 个税起征点（元/月，深圳/全国统一）
+    threshold: 5000
+    # 五险一金个人承担比例（可按公司调整）
+    social-insurance-rate: 0.2

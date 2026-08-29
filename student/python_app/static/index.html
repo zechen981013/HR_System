@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python 工资管理系统</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+  <!-- ============ 登录页 ============ -->
+  <div id="login-view" class="login-wrap">
+    <form class="login-card" id="login-form">
+      <h1>Python 工资管理系统</h1>
+      <p class="sub">共用老师系统的用户表 · 仅财务部可登录</p>
+      <label>用户名</label>
+      <input id="username" placeholder="如 wangfang" value="wangfang" autocomplete="off" />
+      <label>密码</label>
+      <input id="password" type="password" placeholder="123456" value="123456" />
+      <button type="submit" id="login-btn">登 录</button>
+      <div id="login-msg" class="msg"></div>
+    </form>
+  </div>
+
+  <!-- ============ 主页面 ============ -->
+  <div id="main-view" class="main hidden">
+    <header class="topbar">
+      <div class="brand">Python 工资管理系统 <span class="badge">2026年7月</span></div>
+      <div class="user-area">
+        <span id="user-info"></span>
+        <button id="logout-btn" class="btn-plain">退出</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- 汇总卡片 -->
+      <section class="cards">
+        <div class="card"><div class="label">本月共计发薪（实发）</div><div class="value" id="c-net">-</div></div>
+        <div class="card"><div class="label">应发总额</div><div class="value" id="c-gross">-</div></div>
+        <div class="card"><div class="label">个人所得税</div><div class="value" id="c-tax">-</div></div>
+        <div class="card"><div class="label">五险一金（个人）</div><div class="value" id="c-social">-</div></div>
+      </section>
+
+      <!-- 图表区 -->
+      <section class="charts">
+        <div class="chart-box">
+          <h3>分部门累计发薪折线图</h3>
+          <div id="line-chart" class="chart"></div>
+        </div>
+        <div class="chart-box">
+          <h3>分部门实发工资占比饼图</h3>
+          <div id="pie-chart" class="chart"></div>
+        </div>
+      </section>
+
+      <!-- 分部门统计 + 发薪 -->
+      <section class="bottom">
+        <div class="panel">
+          <h3>分部门平均薪水</h3>
+          <table id="dept-table">
+            <thead><tr><th>部门</th><th>人数</th><th>平均应发</th><th>平均实发</th><th>实发合计</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <h3 style="margin-top:20px;">发工资（单个 / 批量）</h3>
+          <div class="pay-tools">
+            <button id="pay-btn" class="btn-primary">发放选中工资单</button>
+            <button id="simulate-btn" class="btn-ghost">模拟 20000 人高并发发薪</button>
+          </div>
+          <div id="pay-msg" class="msg"></div>
+          <table id="salary-table">
+            <thead><tr>
+              <th><input type="checkbox" id="check-all" /></th>
+              <th>姓名</th><th>部门</th><th>应发</th><th>实发</th><th>状态</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
